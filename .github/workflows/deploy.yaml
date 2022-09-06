@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-
+      - production
 env:
   CURRENT_BRANCH: ${{ github.ref_name }}
   GCR_HOST: us.gcr.io
