@@ -1,6 +1,6 @@
-const AuthriteClient = require('./AuthriteClient')
+import AuthriteClient from './AuthriteClient'
 
-module.exports = async ({ config, path, body }) => {
+const createSignedRequest = async ({ config, path, body }) => {
   console.log('createSignedRequest():config:', config)
   let result = await new AuthriteClient().request(
     `${config.byteshopURL}${path}`, {
@@ -22,3 +22,5 @@ module.exports = async ({ config, path, body }) => {
   }
   return result
 }
+
+export default createSignedRequest

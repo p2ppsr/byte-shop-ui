@@ -1,4 +1,4 @@
-const { Authrite } = require('authrite-js')
+import { Authrite } from 'authrite-js'
 // Singleton class for managing a single AuthriteClient instance
 class AuthriteClient {
   constructor () {
@@ -9,4 +9,4 @@ class AuthriteClient {
   }
 }
 
-module.exports = AuthriteClient
+export default AuthriteClient

@@ -1,7 +1,7 @@
-const bsv = require('bsv')
-const { getPublicKey, createAction } = require('@babbage/sdk')
-const createSignedRequest = require('./createSignedRequest')
-const { CONFIG } = require('./defaults')
+import bsv from 'bsv'
+import { getPublicKey, createAction } from '@babbage/sdk'
+import createSignedRequest from './createSignedRequest'
+import { CONFIG } from './defaults'
 
 /**
  * Payment for the NanoStore file hosting contract.
@@ -15,7 +15,7 @@ const { CONFIG } = require('./defaults')
  *
  * @returns {Promise<Object>} The pay object, contains the `uploadURL` and the `publicURL` and the `status`'.
  */
-module.exports = async ({
+export default async ({
   config = CONFIG,
   description,
   orderID,

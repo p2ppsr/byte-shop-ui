@@ -1,4 +1,2 @@
-module.exports = {
-  invoice: require('./invoice'),
-  pay: require('./pay'),
-}
+export { default as invoice } from './invoice'
+export { default as pay } from './pay'
