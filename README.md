@@ -1,6 +1,6 @@
 # Byteshop UI
 
-a user interface for the Byte Shop API Server.
+a user interface for the [Byte Shop API Server](https://github.com/p2ppsr/byte-shop).
 
 ## Setting Up
 

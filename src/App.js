@@ -153,7 +153,11 @@ export default () => {
       )}
       <br />
       <Typography align='center'>
-        <a href='https://projectbabbage.com'>www.ProjectBabbage.com</a>
+        View the <a href='https://github.com/p2ppsr/byte-shop-ui'>GitHub Repo</a> for this site
+      </Typography>
+      <br />
+      <Typography align='center'>
+        Made with <a href='https://projectbabbage.com'>www.ProjectBabbage.com</a> tools :)
       </Typography>
     </div>
   )
