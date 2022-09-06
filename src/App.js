@@ -11,27 +11,26 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import style from './style'
 import { makeStyles } from '@material-ui/core/styles'
-import { invoice, pay } from 'byteshop-publisher'
+import { invoice, pay } from './utils'
 import Buy from '@material-ui/icons/GetApp'
 
 const isStaging = Boolean(process.env.REACT_APP_IS_STAGING)
 
 const useStyles = makeStyles(style, {
-  name: 'Scratchpad'
+  name: 'ByteShop'
 })
 export default () => {
   const classes = useStyles()
   const [tabIndex, setTabIndex] = useState(0)
   const [serverURL, setServerURL] = useState(
     window.location.host.startsWith('localhost')
-      ? 'http://localhost:3104'
+      ? 'http://localhost:3002'
       : isStaging
-        ? 'https://staging-byteshop.babbage.systems'
-        : 'https://byteshop.babbage.systems'
+        ? 'https://staging-byte-shop.babbage.systems'
+        : 'https://byte-shop.babbage.systems'
   )
   const [numberOfBytes, setNumberOfBytes] = useState(14)
   const [results, setResults] = useState('')
-  //const [actionTXID, setActionTXID] = useState('')
   const [loading, setLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
 
@@ -56,7 +55,7 @@ export default () => {
           byteshopURL: serverURL
         },
         description: 'Buy with Byteshop UI',
-        orderID: invoiceResult.ORDER_ID,
+        orderID: invoiceResult.orderID,
         recipientPublicKey: invoiceResult.identityKey,
         amount: invoiceResult.amount
       })
@@ -83,8 +82,8 @@ export default () => {
       <ToastContainer />
       <center>
         <Typography variant='h4'>Byteshop UI</Typography>
-	<br />
-	<br />
+        <br />
+        <br />
         <Tabs
           onChange={(e, v) => setTabIndex(v)}
           value={tabIndex}
@@ -147,16 +146,6 @@ export default () => {
                 <Typography variant='h4'>Success!</Typography>
                 <Typography><b>Your bytes:</b>{' '}{results.bytes}</Typography>
                 <Typography><b>Note:</b>{' '}{results.note}</Typography>
-                <Typography>
-                  <b>Legacy HTTPS URL (only for this node and commitment, may expire):</b>{' '}
-                  <a
-                    href={results.publicURL}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    {results.publicURL}
-                  </a>
-                </Typography>
               </div>
             )}
           </center>

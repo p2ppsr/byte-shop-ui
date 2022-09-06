@@ -1,6 +1,17 @@
 # Byteshop UI
 
-Upload and Download Content
+a user interface for the Byte Shop API Server.
+
+## Setting Up
+
+Clone the repo, then run:
+
+```
+npm i
+npm run start
+```
+
+Then, your UI will be available on port **3000**.
 
 ## License
 
