@@ -1,7 +1,6 @@
 import bsv from 'bsv'
 import { getPublicKey, createAction } from '@babbage/sdk'
 import createSignedRequest from './createSignedRequest'
-import { CONFIG } from './defaults'
 
 /**
  * Payment for the NanoStore file hosting contract.
@@ -16,7 +15,7 @@ import { CONFIG } from './defaults'
  * @returns {Promise<Object>} The pay object, contains the `uploadURL` and the `publicURL` and the `status`'.
  */
 export default async ({
-  config = CONFIG,
+  config,
   description,
   orderID,
   recipientPublicKey,

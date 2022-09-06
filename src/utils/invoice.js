@@ -1,5 +1,4 @@
 import createSignedRequest from './createSignedRequest'
-import { CONFIG } from './defaults'
 
 /**
  * Creates an invoice for a NanoStore file hosting contract.
@@ -10,7 +9,7 @@ import { CONFIG } from './defaults'
   *
  * @returns {Promise<Object>} The invoice object, containing `message` giving details, `identityKey` receipient's private key, `amount` (satoshis), `ORDER_ID`, for referencing this contract payment and passed to the `upload` function. The object also contains `publicURL`, which is the HTTP URL where the file will become available for the duration of the contract once uploaded and the `status`.
  */
-export default async ({ config = CONFIG, numberOfBytes } = {}) => {
+export default async ({ config, numberOfBytes } = {}) => {
   // Send a request to get the invoice
   // console.log('invoice:numberOfBytes:', numberOfBytes)
   const invoice = await createSignedRequest({
