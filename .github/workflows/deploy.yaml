@@ -34,7 +34,7 @@ jobs:
           image_tag: ${{ env.CURRENT_BRANCH }}-latest
       - uses: google-github-actions/deploy-cloudrun@v0
         with:
-          credentials: ${{ secrets.gcp_credentials }}
+          credentials: ${{ secrets.gcp_deploy_credentials }}
           service: ${{ env.GCR_IMAGE_NAME }}-${{ env.CURRENT_BRANCH }}
           image: "${{ env.GCR_HOST }}/${{ env.GOOGLE_PROJECT_ID }}/${{ env.GCR_IMAGE_NAME }}:${{ env.CURRENT_BRANCH }}-latest"
           timeout: 3540
