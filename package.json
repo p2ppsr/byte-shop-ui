@@ -4,11 +4,11 @@
   "private": true,
   "license": "Open BSV License",
   "dependencies": {
-    "@babbage/react-prompt": "^0.2.2",
+    "@babbage/react-prompt": "^0.2.3",
     "@babbage/sdk": "^0.4.2",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "authrite-js": "^0.2.3",
+    "authrite-js": "^0.2.4",
     "babbage-bsv": "^0.1.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
