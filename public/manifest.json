@@ -1,6 +1,6 @@
 {
-  "short_name": "NanoStore UI",
-  "name": "NanoStore UI",
+  "short_name": "The Byte Shop",
+  "name": "The Byte Shop",
   "icons": [
     {
       "src": "favicon.ico",
@@ -24,9 +24,17 @@
   "background_color": "#ffffff",
   "babbage": {
     "spendingAuthorization": {
-      "description": "Upload files for preservation or backup on the NanoStore content storage network.",
+      "description": "Allow Byte Shop to charge exorbitant prices for random data.",
       "duration": "3888000",
       "amount": "600000"
+    },
+    "protocolPermissions": {
+      "identity key": "The Byte Shop needs to know who you are so that we can sell you things.",
+      "authrite message signature": "The Byte Shop uses Authrite to establish an authenticated peer-to-peer communications channel.",
+      "3241645161d8": "The Byte Shop uses this protocol to facilitate peer-to-peer payments."
+    },
+    "certificateAccess": {
+      "AGfk/WrT1eBDXpz3mcw386Zww2HmqcIn3uY6x4Af1eo=": "The Byte Shop will sell you cool byes if you are cool enough."
     }
   }
 }
