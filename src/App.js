@@ -18,7 +18,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { invoice, pay } from './utils'
 import Buy from '@material-ui/icons/GetApp'
 
-const isStaging = Boolean(process.env.REACT_APP_IS_STAGING)
+const isStaging = window.location.host.indexOf('staging') !== -1
 
 const useStyles = makeStyles(style, {
   name: 'ByteShop'
