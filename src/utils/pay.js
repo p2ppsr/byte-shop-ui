@@ -1,6 +1,6 @@
 import bsv from 'babbage-bsv'
 import { getPublicKey, createAction } from '@babbage/sdk'
-import createSignedRequest from './createSignedRequest'
+import { AuthriteClient } from 'authrite-js'
 
 /**
  * Payment for the NanoStore file hosting contract.
@@ -55,22 +55,19 @@ export default async ({
     throw e
   }
   // console.log('payment:', payment)
-  const pay = await createSignedRequest({
-    config,
-    path: '/pay',
-    body: {
-      orderID,
-      transaction: {
-        ...payment,
-        outputs: [{
-          vout: 0,
-          satoshis: amount,
-          derivationPrefix,
-          derivationSuffix
-        }]
-      },
-      description
-    }
+  const client = new AuthriteClient(config.byteshopURL)
+  const pay = await client.createSignedRequest('/pay', {
+    orderID,
+    transaction: {
+      ...payment,
+      outputs: [{
+        vout: 0,
+        satoshis: amount,
+        derivationPrefix,
+        derivationSuffix
+      }]
+    },
+    description
   })
   // console.log('pay:', pay)
   if (pay.status === 'error') {

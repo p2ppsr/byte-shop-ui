@@ -1,4 +1,4 @@
-import createSignedRequest from './createSignedRequest'
+import { AuthriteClient } from 'authrite-js'
 
 /**
  * Creates an invoice for a NanoStore file hosting contract.
@@ -13,14 +13,8 @@ import createSignedRequest from './createSignedRequest'
 export default async ({ config, numberOfBytes, cool } = {}) => {
   // Send a request to get the invoice
   // console.log('invoice:numberOfBytes:', numberOfBytes)
-  const invoice = await createSignedRequest({
-    config,
-    path: '/invoice',
-    body: {
-      numberOfBytes,
-      cool
-    }
-  })
+  const client = new AuthriteClient(config.byteshopURL)
+  const invoice = await client.createSignedRequest('/invoice', { numberOfBytes, cool })
   // console.log('invoice:', invoice)
   if (invoice.status === 'error') {
     const e = new Error(invoice.description)
