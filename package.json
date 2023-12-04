@@ -4,13 +4,13 @@
   "private": true,
   "license": "Open BSV License",
   "dependencies": {
-    "@babbage/react-prompt": "^0.2.3",
-    "@babbage/sdk": "^0.4.3",
+    "@babbage/react-prompt": "^0.2.10",
+    "@babbage/sdk": "^0.4.29",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "authrite-js": "^0.3.2",
     "authrite-utils": "^0.2.0",
-    "babbage-bsv": "^0.1.1",
+    "babbage-bsv": "^0.2.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-scripts": "3.4.3",
@@ -19,7 +19,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "standard --fix ."
+    "lint": "standard --fix .",
+    "tonpm": "npm run tonone && npm i @babbage/react-prompt @babbage/sdk authrite-js authrite-utils babbage-bsv --silent",
+    "tonone": "npm remove @babbage/react-prompt @babbage/sdk authrite-js authrite-utils babbage-bsv --silent"
   },
   "eslintConfig": {
     "extends": "react-app"
