@@ -11,10 +11,10 @@
     "authrite-js": "^0.3.2",
     "authrite-utils": "^0.2.0",
     "babbage-bsv": "^0.2.2",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-scripts": "3.4.3",
-    "react-toastify": "^6.0.9"
+    "react-toastify": "^8.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
