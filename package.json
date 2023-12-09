@@ -5,12 +5,12 @@
   "license": "Open BSV License",
   "dependencies": {
     "@babbage/react-prompt": "^0.2.10",
-    "@babbage/sdk": "^0.4.32",
+    "@babbage/sdk": "^0.4.33",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "authrite-js": "^0.3.8",
-    "authrite-utils": "^0.2.3",
-    "babbage-bsv": "^0.2.2",
+    "authrite-js": "^0.3.9",
+    "authrite-utils": "^0.2.4",
+    "babbage-bsv": "^0.2.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-toastify": "^8.0.2"
