@@ -11,7 +11,7 @@ ReactDOM.render(
     authorUrl='https://projectbabbage.com'
     description='Purchase your Bytes here!'
     appIcon='/favicon.ico'
-    supportedMetaNet='mainnet'
+    supportedMetaNet='testnet'
   >
     <App />
   </BabbagePrompt>,
