@@ -1,11 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import Prompt from '@babbage/react-prompt'
+import BabbagePrompt from '@babbage/react-prompt'
 
 ReactDOM.render(
-  <Prompt appName='Byteshop UI'>
+  <BabbagePrompt
+    customPrompt
+    appName='ByteShop UI'
+    author='Project Babbage'
+    authorUrl='https://projectbabbage.com'
+    description='Purchase your Bytes here!'
+    appIcon='/favicon.ico'
+    supportedMetaNet='mainnet'
+  >
     <App />
-  </Prompt>,
+  </BabbagePrompt>,
   document.getElementById('root')
 )
