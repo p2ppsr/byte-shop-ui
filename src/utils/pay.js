@@ -1,5 +1,5 @@
 import bsv from 'babbage-bsv'
-import { getPublicKey, createAction } from '@babbage/sdk'
+import { getPublicKey, createAction } from '@babbage/sdk-ts'
 import { AuthriteClient } from 'authrite-js'
 
 /**
