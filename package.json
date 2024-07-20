@@ -4,26 +4,55 @@
   "private": true,
   "license": "Open BSV License",
   "dependencies": {
-    "@babbage/react-prompt": "^0.2.20",
     "@babbage/sdk-ts": "^0.2.47",
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^5.16.4",
+    "@mui/material": "^5.16.4",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "assert": "^2.1.0",
     "authrite-js": "^0.4.33",
-    "authrite-utils": "^0.3.32",
     "babbage-bsv": "^0.2.5",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-toastify": "^8.0.2"
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-toastify": "^10.0.5",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.9",
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-react": "^7.24.7",
+    "@types/node": "^20.3.1",
+    "babel-loader": "^9.1.3",
+    "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^7.1.2",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.6.0",
+    "node-polyfill-webpack-plugin": "^4.0.0",
+    "process": "^0.11.10",
+    "source-map-loader": "^5.0.0",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.1.3",
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
-    "lint": "standard --fix .",
-    "tonpm": "npm run tonone && npm i @babbage/react-prompt @babbage/sdk authrite-js authrite-utils babbage-bsv --silent",
-    "tonone": "npm remove @babbage/react-prompt @babbage/sdk authrite-js authrite-utils babbage-bsv --silent"
+    "build": "webpack --config webpack.prod.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -36,22 +65,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/core": "^7.18.5",
-    "@babel/preset-env": "^7.18.2",
-    "@babel/preset-react": "^7.17.12",
-    "babel-loader": "^8.2.5",
-    "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.1",
-    "html-webpack-plugin": "^5.5.0",
-    "node-polyfill-webpack-plugin": "^1.1.4",
-    "standard": "^17.0.0",
-    "style-loader": "^3.3.1",
-    "url-loader": "^4.1.1",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.9.2",
-    "webpack-merge": "^5.8.0"
   }
 }
