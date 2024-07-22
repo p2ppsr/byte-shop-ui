@@ -7,37 +7,39 @@ import {
   Checkbox,
   LinearProgress,
   Dialog,
+  DialogActions,
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions,
   FormControl,
   InputLabel,
   TextField,
   Container,
-  Box,
-  Paper
+  Box
 } from '@mui/material'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import useAsyncEffect from 'use-async-effect'
 import Buy from '@mui/icons-material/GetApp'
+import checkForMetaNetClient from './utils/checkForMetaNetClient'
+import NoMncModal from './components/NoMNCModal/NoMNCModal'
 import { SERVER_URL_OPTIONS, COOLCERT_URL } from './utils/constants'
 import { invoice, pay } from './utils'
+import './App.scss'
+import { getNetwork } from '@babbage/sdk-ts'
+
+// Define the NetworkInfo type
+type NetworkInfo = 'mainnet' | 'testnet' | 'regtest'
 
 interface Results {
   bytes: string
   note: string
 }
 
-const isStaging = window.location.host.indexOf('staging') !== -1
-
 const ByteShop: React.FC = () => {
-  // State variables
   const [serverURL, setServerURL] = useState(
     window.location.host.startsWith('localhost')
       ? 'http://localhost:3002'
-      : isStaging
-      ? 'https://staging-byte-shop.babbage.systems'
       : 'https://byte-shop.babbage.systems'
   )
   const [numberOfBytes, setNumberOfBytes] = useState(14)
@@ -47,8 +49,36 @@ const ByteShop: React.FC = () => {
   const [results, setResults] = useState<Results | null>(null)
   const [loading, setLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [isMncMissing, setIsMncMissing] = useState<boolean>(false)
 
-  // Handle the form submission
+  // Run a 1s interval for checking if MNC is running and update the server URL
+  useAsyncEffect(async () => {
+    const intervalId = setInterval(async () => {
+      const hasMNC = await checkForMetaNetClient()
+      if (!hasMNC) {
+        setIsMncMissing(true) // Open modal if MNC is not found
+      } else {
+        setIsMncMissing(false) // Ensure modal is closed if MNC is found
+        try {
+          const networkInfo = await getNetwork()
+          const networkName = networkInfo.toString()
+
+          setServerURL(
+            networkName === 'testnet'
+              ? 'https://staging-byte-shop.babbage.systems'
+              : 'https://byte-shop.babbage.systems'
+          )
+        } catch (error) {
+          console.error('Error fetching network info:', error)
+        }
+      }
+    }, 1000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
   const handleBuy = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -96,33 +126,33 @@ const ByteShop: React.FC = () => {
     }
   }
 
-  // Get the label for the selected server URL
   const getSelectedLabel = (value: string) => {
     const selectedOption = SERVER_URL_OPTIONS.find(option => option.value === value)
     return selectedOption ? `${selectedOption.label} (${selectedOption.value})` : value
   }
 
   return (
-    <Container maxWidth="md">
-      <Paper elevation={3} style={{ padding: '2rem', marginTop: '2rem' }}>
+    <Container maxWidth="md" className="container">
+      <NoMncModal open={isMncMissing} onClose={() => setIsMncMissing(false)} />
         <ToastContainer />
-        <Typography align='center' variant='h4' paragraph>
+        <Typography align='center' variant='h4' paragraph className="typography">
           The Byte Shop
         </Typography>
         <form onSubmit={handleBuy}>
           <Box mb={3}>
-            <Typography variant='h5'>Server URL</Typography>
-            <Typography paragraph>
-              Enter the URL of the Byteshop server to interact with
+            <Typography variant='h5' className="typography">Server URL</Typography>
+            <Typography paragraph className="typography">
+              Select your Byteshop server to interact with
             </Typography>
             <FormControl fullWidth variant='outlined'>
-              <InputLabel id='server-url-label'>Server URL</InputLabel>
+              <InputLabel id='server-url-label' className="typography">Server URL</InputLabel>
               <Select
                 labelId='server-url-label'
                 value={serverURL}
                 onChange={(e: { target: { value: string } }) => setServerURL(e.target.value as string)}
                 label='Server URL'
                 renderValue={(value: string) => getSelectedLabel(value)}
+                disabled // Disable the select component
               >
                 {SERVER_URL_OPTIONS.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -133,19 +163,19 @@ const ByteShop: React.FC = () => {
             </FormControl>
           </Box>
           <Box mb={3}>
-            <Typography paragraph>Number of bytes (10 or more)</Typography>
+            <Typography paragraph className="typography">Number of bytes (10 or more)</Typography>
             <TextField
               fullWidth
               variant='outlined'
               label='Number of bytes'
               value={numberOfBytes}
               onChange={(e: { target: { value: any } }) => setNumberOfBytes(Number(e.target.value))}
+              InputLabelProps={{ className: 'typography' }}
             />
           </Box>
           <Box mb={3}>
-            <Typography paragraph>
-              <Checkbox value={cool} onChange={() => setCool((c) => !c)} /> Request
-              Cool Bytes
+            <Typography paragraph className="typography">
+              <Checkbox value={cool} onChange={() => setCool((c) => !c)} /> Request Cool Bytes
             </Typography>
           </Box>
           <center>
@@ -156,6 +186,7 @@ const ByteShop: React.FC = () => {
               type='submit'
               disabled={loading}
               startIcon={<Buy />}
+              className="button"
             >
               Buy
             </Button>
@@ -169,47 +200,45 @@ const ByteShop: React.FC = () => {
             )}
             {results && (
               <Box mt={3}>
-                <Typography variant='h4'>Success!</Typography>
-                <Typography>
+                <Typography variant='h4' className="typography">Success!</Typography>
+                <Typography className="typography">
                   <b>Your bytes:</b> {results.bytes}
                 </Typography>
-                <Typography>
+                <Typography className="typography">
                   <b>Note:</b> {results.note}
                 </Typography>
               </Box>
             )}
           </center>
         </form>
-      </Paper>
       <Box mt={3} textAlign="center">
-        <Typography>
+        <Typography className="typography">
           View the <a href='https://github.com/p2ppsr/byte-shop-ui'>GitHub Repo</a> for this site
         </Typography>
-        <Typography>
+        <Typography className="typography">
           Made with <a href='https://projectbabbage.com'>www.ProjectBabbage.com</a> tools :)
         </Typography>
       </Box>
       <Dialog
         open={coolcertModalOpen}
-        onClose={() => setCoolcertModalOpen(false)}
+        className="dialog"
       >
-        <DialogTitle>Cool Person Certificate Required</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Before buying Cool Bytes, you need a Cool Person Certificate from
-            the CoolCert CA. Please visit the following URL to obtain one:
+        <DialogTitle className="dialog">Cool Person Certificate Required</DialogTitle>
+        <DialogContent className="dialog">
+          <DialogContentText className="dialog">
+            Before buying Cool Bytes, you need a Cool Person Certificate from the CoolCert CA. Please visit the following URL to obtain one:
           </DialogContentText>
-          <DialogContentText>
-            <a href={coolcertURL} target='_blank' rel='noopener noreferrer'>
+          <DialogContentText className="dialog">
+            <a href={coolcertURL} target='_blank' rel='noopener noreferrer' className="typography">
               {coolcertURL}
             </a>
           </DialogContentText>
-          <DialogContentText>
+          <DialogContentText className="dialog">
             When you are finished, return to this page and try again.
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setCoolcertModalOpen(false)}>
+        <DialogActions className="dialog">
+          <Button onClick={() => setCoolcertModalOpen(false)} className="button">
             Close & Try Again
           </Button>
         </DialogActions>

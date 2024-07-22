@@ -20,18 +20,28 @@ interface Config {
  * Creates an invoice for a NanoStore file hosting contract.
  *
  * @param {Object} obj All parameters are given in an object.
- * @param {Object} obj.config config object, see config section.
- * @param {Number} obj.numberOfBytes Request this number of bytes > 10.
- * @param {Boolean} obj.cool Whether you request Cool Bytes
+ * @param {Object} obj.config Config object containing the byteshop URL.
+ * @param {Number} obj.numberOfBytes The number of bytes requested (> 10).
+ * @param {Boolean} obj.cool Indicates whether Cool Bytes are requested.
  *
- * @returns {Promise<InvoiceResult>} The invoice object, containing `message` giving details, `identityKey` receipient's private key, `amount` (satoshis), `ORDER_ID`, for referencing this contract payment and passed to the `upload` function. The object also contains `publicURL`, which is the HTTP URL where the file will become available for the duration of the contract once uploaded and the `status`.
+ * @returns {Promise<InvoiceResult>} The invoice object, containing details such as `message`, `identityKey`, `amount`, `orderID`, `publicURL`, `status`, and optionally `code`, `description`, and `coolcertURL`.
  */
-export default async ({ config, numberOfBytes, cool }: { config: Config, numberOfBytes: number, cool: boolean }): Promise<InvoiceResult> => {
-  // Send a request to get the invoice
+export default async function createInvoice({
+  config,
+  numberOfBytes,
+  cool
+}: {
+  config: Config
+  numberOfBytes: number
+  cool: boolean
+}): Promise<InvoiceResult> {
+  // Create a new Authrite client with the provided byteshop URL
   const client = new AuthriteClient(config.byteshopURL)
+  
+  // Send a request to the /invoice endpoint to create an invoice
   const invoice = await client.createSignedRequest('/invoice', { numberOfBytes, cool })
 
-  // Ensure the invoice object matches the InvoiceResult interface
+  // Handle error responses by throwing an appropriate error
   if (invoice.status === 'error') {
     const e = new Error(invoice.description) as any
     e.code = invoice.code
@@ -41,6 +51,7 @@ export default async ({ config, numberOfBytes, cool }: { config: Config, numberO
     throw e
   }
 
+  // Return the invoice details
   return {
     message: invoice.message,
     identityKey: invoice.identityKey,

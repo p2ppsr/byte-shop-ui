@@ -1,24 +1,19 @@
+// src/babbage-sdk-ts.d.ts
 declare module '@babbage/sdk-ts' {
-  export function getCertificates(options: any): Promise<any[]>
-  export function createCertificate(options: any): Promise<any>
-  export function derivePublicKey(options: {
-    protocolID: [number, string],
-    keyID: string,
-    counterparty: string
-  }): Promise<string>
+	export function getNetwork(): Promise<NetworkInfo>
+	export function derivePublicKey(privateKey: string): string
+  export function createAction(actionData: ActionData): Promise<ActionResult>
 
-  export function createAction(options: {
-    description: string,
-    outputs: Array<{
-      script: string,
-      satoshis: number
-    }>
-  }): Promise<{
-    status: string,
-    description?: string,
-    code?: string,
-    [key: string]: any
-  }>
+  interface NetworkInfo {
+    network: string
+    status: string
+  }
+
+  interface ActionData {
+    // Define the properties of actionData as per your requirements
+  }
+
+  interface ActionResult {
+    // Define the properties of actionResult as per your requirements
+  }
 }
-
-  
