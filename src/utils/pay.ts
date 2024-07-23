@@ -1,4 +1,4 @@
-import { derivePublicKey, createAction } from '@babbage/sdk-ts';
+import { getPublicKey, createAction } from '@babbage/sdk-ts';
 import { AuthriteClient } from 'authrite-js';
 import bsv from 'babbage-bsv';
 
@@ -48,13 +48,11 @@ export default async function pay({
   const derivationSuffix = require('crypto').randomBytes(10).toString('base64');
 
   // Derive the public key used for creating the output script
-  const derivedPublicKey = await derivePublicKey(
-    JSON.stringify({
-      protocolID: [2, '3241645161d8'],
-      keyID: `${derivationPrefix} ${derivationSuffix}`,
-      counterparty: recipientPublicKey
-    })
-  );
+  const derivedPublicKey = await getPublicKey({
+    protocolID: [2, '3241645161d8'],
+    keyID: `${derivationPrefix} ${derivationSuffix}`,
+    counterparty: recipientPublicKey
+  })
 
   // Create an output script that can only be unlocked with the corresponding derived private key
   const script = new bsv.Script(
