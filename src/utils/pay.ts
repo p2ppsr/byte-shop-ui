@@ -1,6 +1,29 @@
-import bsv from 'babbage-bsv'
-import { getPublicKey, createAction } from '@babbage/sdk-ts'
-import { AuthriteClient } from 'authrite-js'
+import { getPublicKey, createAction } from '@babbage/sdk-ts';
+import { AuthriteClient } from 'authrite-js';
+import bsv from 'babbage-bsv';
+
+// Extend the Error type to include a 'code' property
+interface ErrorWithCode extends Error {
+  code?: string;
+}
+
+interface PayParams {
+  config: {
+    byteshopURL: string;
+  };
+  description: string;
+  orderID: string;
+  recipientPublicKey: string;
+  amount: number;
+}
+
+interface ActionResult {
+  description?: string;
+  code?: string;
+  status?: string;
+  bytes?: string;
+  note?: string;
+}
 
 /**
  * Payment for the NanoStore file hosting contract.
@@ -12,22 +35,17 @@ import { AuthriteClient } from 'authrite-js'
  * @param {String} obj.recipientPublicKey Public key of the host receiving the payment.
  * @param {Number} obj.amount The number of satoshis being paid.
  *
- * @returns {Promise<Object>} The pay object, contains the `uploadURL` and the `publicURL` and the `status`'.
+ * @returns {Promise<Object>} The pay object, contains the `bytes` and the `note`.
  */
-export default async ({
+export default async function pay({
   config,
   description,
   orderID,
   recipientPublicKey,
   amount
-} = {}) => {
-  // Pay the host for storing the file, this return the txid.
-  const derivationPrefix = require('crypto')
-    .randomBytes(10)
-    .toString('base64')
-  const derivationSuffix = require('crypto')
-    .randomBytes(10)
-    .toString('base64')
+}: PayParams): Promise<ActionResult> {
+  const derivationPrefix = require('crypto').randomBytes(10).toString('base64');
+  const derivationSuffix = require('crypto').randomBytes(10).toString('base64');
 
   // Derive the public key used for creating the output script
   const derivedPublicKey = await getPublicKey({
@@ -38,24 +56,24 @@ export default async ({
 
   // Create an output script that can only be unlocked with the corresponding derived private key
   const script = new bsv.Script(
-    bsv.Script.fromAddress(bsv.Address.fromPublicKey(
-      bsv.PublicKey.fromString(derivedPublicKey)
-    ))
-  ).toHex()
+    bsv.Script.fromAddress(bsv.Address.fromPublicKey(bsv.PublicKey.fromString(derivedPublicKey)))
+  ).toHex();
+
   const payment = await createAction({
     description,
     outputs: [{
       script,
       satoshis: amount
     }]
-  })
+  }) as ActionResult;
+
   if (payment.status === 'error') {
-    const e = new Error(payment.description)
-    e.code = payment.code
-    throw e
+    const e: ErrorWithCode = new Error(payment.description);
+    e.code = payment.code;
+    throw e;
   }
-  // console.log('payment:', payment)
-  const client = new AuthriteClient(config.byteshopURL)
+
+  const client = new AuthriteClient(config.byteshopURL);
   const pay = await client.createSignedRequest('/pay', {
     orderID,
     transaction: {
@@ -68,12 +86,13 @@ export default async ({
       }]
     },
     description
-  })
-  // console.log('pay:', pay)
+  }) as ActionResult;
+
   if (pay.status === 'error') {
-    const e = new Error(pay.description)
-    e.code = pay.code
-    throw e
+    const e: ErrorWithCode = new Error(pay.description);
+    e.code = pay.code;
+    throw e;
   }
-  return pay
+
+  return pay;
 }

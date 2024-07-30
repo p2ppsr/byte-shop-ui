@@ -6,24 +6,38 @@
   "dependencies": {
     "@babbage/react-prompt": "^0.2.20",
     "@babbage/sdk-ts": "^0.2.47",
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "authrite-js": "^0.4.33",
-    "authrite-utils": "^0.3.32",
-    "babbage-bsv": "^0.2.5",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-toastify": "^8.0.2"
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.6",
+    "@packetpay/js": "^0.2.33",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.0",
+    "@types/react": "^17.0.0",
+    "email-tokenator": "^0.1.43",
+    "filereader": "^0.10.3",
+    "metanet-react-prompt": "^0.1.28",
+    "nanoseek": "^0.2.33",
+    "nanostore-publisher": "^0.2.33",
+    "payment-tokenator": "^0.2.37",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0",
+    "react-router": "^5.3.4",
+    "react-router-dom": "^5.3.4",
+    "react-toastify": "^8.2.0",
+    "uhrp-react": "^0.2.35",
+    "uhrp-url": "^0.1.10",
+    "use-async-effect": "^2.2.7",
+    "zustand": "^4.5.0"
   },
   "scripts": {
     "start": "webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
-    "lint": "standard --fix .",
-    "tonpm": "npm run tonone && npm i @babbage/react-prompt @babbage/sdk authrite-js authrite-utils babbage-bsv --silent",
-    "tonone": "npm remove @babbage/react-prompt @babbage/sdk authrite-js authrite-utils babbage-bsv --silent"
+    "build": "webpack --config webpack.prod.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -41,17 +55,28 @@
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "^6.7.1",
+    "css-loader": "^6.10.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.0",
+    "interpolate-html-plugin": "^4.0.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
+    "sass": "^1.72.0",
+    "sass-loader": "^14.1.1",
     "standard": "^17.0.0",
-    "style-loader": "^3.3.1",
+    "style-loader": "^3.3.4",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.3.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.9.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.10.0"
   }
 }

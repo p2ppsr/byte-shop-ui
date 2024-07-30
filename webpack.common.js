@@ -5,14 +5,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   output: {
-    path: path.join(__dirname, '/build'), // the bundle output path
-    filename: 'bundle.js', // the name of the bundle
+    path: path.join(__dirname, '/build'),
+    filename: 'bundle.js',
     publicPath: '/'
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      inject: false
+      template: './public/index.html',
+      filename: './index.html',
+      favicon: './public/favicon.ico',
+      inject: false,
     }),
     new NodePolyfillPlugin(),
     new CopyWebpackPlugin({
@@ -24,29 +26,43 @@ module.exports = {
           }
         }
       ]
-    })
+    }),
   ],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/, // .js and .jsx files
-        exclude: /node_modules/, // excluding the node_modules folder
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader'
+        }
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
         }
       },
       {
-        test: /\.css$/, // styles files
+        test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|woff|woff2|eot|ttf|svg)$/, // to import images and fonts
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
         loader: 'url-loader',
         options: { limit: false }
       }
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    fallback: {
+      fs: false
+    }
   }
 }
